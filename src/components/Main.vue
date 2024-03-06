@@ -329,23 +329,27 @@ export default {
         }
     },
     async typedSummary(){
-        if (this.transcript) {
-          const words = this.transcript.split(/\s+/);
-          let typed_strings = [];
+      if (this.transcript) {
+        // Split the transcript into words instead of letters
+        const words = this.transcript.split(/\s+/);
+        let typed_strings = [];
 
-          for (let i = 0; i < words.length; i += 6) {
-            let chunk = words.slice(i, i + 6).join(' ');
-            typed_strings.push(chunk);
-          }    
-          new Typed('.image-summary', {
-            strings: typed_strings,
-            showCursor: false, 
-            loop: false,
-            typeSpeed: 25,
-            startSpeed: 2,
-            startDelay: 1000
-          });
-        }
+        // Adjust the chunk size here if you want to display more or fewer words at a time
+        const chunkSize = 5; // Example: Change this to display two words at a time
+
+        for (let i = 0; i < words.length; i += chunkSize) {
+          let chunk = words.slice(i, i + chunkSize).join(' ');
+          typed_strings.push(chunk);
+        }    
+        new Typed('.image-summary', {
+          strings: typed_strings,
+          showCursor: false, 
+          loop: false,
+          typeSpeed: 20, // You might want to adjust the speed to suit the new chunking
+          startSpeed: 2,
+          startDelay: 100
+        });
+      }
     },
     async sendImageToServer(formData) {
       try {
