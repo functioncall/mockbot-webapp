@@ -34,9 +34,7 @@
                       <span>{{ formattedTime(duration) }}</span>
                 </div>
               </div>
-              <div v-if="isNarration" class="image-summary" style="max-width: 270px;" >
-                <!-- {{transcript}} -->
-              </div>
+              <div v-if="isNarration" class="image-summary" style="max-width: 270px;" > </div>
               <!-- <div v-if="processing" class="image-summary" style="width: 270px;" >
                 Thinking...
               </div>   -->
