@@ -28,10 +28,14 @@
 
               
               <div v-if="isNarration" class="range-slider-position">
-                <input type="range" step="0.001" ref="rangeInput" class="progress-bar-custom" min="0" :max="duration"   v-model="currentTime" @input="updateSlider" :style="{backgroundSize: backgroundSize}">
-                <div class="time-indicator">
+                <!-- <input v-if="false" type="range" step="0.001" ref="rangeInput" class="progress-bar-custom" min="0" :max="duration"   v-model="currentTime" @input="updateSlider" :style="{backgroundSize: backgroundSize}"> -->
+                <!-- <div class="time-indicator">
                       <span>{{ formattedTime(currentTime) }}</span>
                       <span>{{ formattedTime(duration) }}</span>
+                </div> -->
+                <div class="text-center">
+                  <button v-if="!audioPlay" class="play-btn" @click="handleAudio('play')"><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 24 24"><path fill="currentColor" d="m9.5 16.5l7-4.5l-7-4.5zM12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12q0-3.35-2.325-5.675T12 4Q8.65 4 6.325 6.325T4 12q0 3.35 2.325 5.675T12 20m0-8"/></svg></button>
+                  <button v-else class="play-btn" @click="handleAudio('pause')"><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16h2V8H9zm4 0h2V8h-2zm-1 6q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12q0-3.35-2.325-5.675T12 4Q8.65 4 6.325 6.325T4 12q0 3.35 2.325 5.675T12 20m0-8"/></svg></button>
                 </div>
               </div>
               <div v-if="isNarration" class="image-summary" style="max-width: 270px;" > </div>
@@ -250,23 +254,26 @@ export default {
       isNarration:false,
       currentTime: 0,
       duration: 0,
-      backgroundSize: '0% 100%'
+      backgroundSize: '0% 100%',
+      audioPlay:false
     };
   },
   mounted() {
     this.startCamera();
   },
   watch:{
-    currentTime() {
+    currentTime(val) {
       if (this.isNarration) {
-          const rangeInput = this.$refs.rangeInput;
-          let clickedElement = rangeInput,
+          // const rangeInput = this.$refs.rangeInput;
+          // let clickedElement = rangeInput,
           // min = clickedElement.min,
-          max = clickedElement.max,
-          val = clickedElement.value;
+          // max = clickedElement.max,
+          // val = clickedElement.value;
           // this.backgroundSize = (val - min) * 100 / (max - min) + '% 100%';
-          this.backgroundSize = (Math.floor(val) / Math.floor(max)) * 100 + '% 100%';
-          console.log(this.backgroundSize)
+          // this.backgroundSize = (Math.floor(val) / Math.floor(max)) * 100 + '% 100%';
+          if(this.duration <= val){
+            this.audioPlay = false;
+          }
       }
     }
   },
@@ -363,6 +370,7 @@ export default {
         this.isNarration = true;
         this.$nextTick(() => {
           this.$refs.audio.play();
+          this.audioPlay = true;
           this.processing = false;
           this.typedSummary();
         });      
@@ -402,6 +410,14 @@ export default {
           this.$refs.audio.play();
           // this.typedSummary();
       });  
+    },
+    handleAudio(action){
+      this.audioPlay = !this.audioPlay
+      if(action == 'pause'){
+          this.$refs.audio.pause();
+      }else if(action == 'play'){
+          this.$refs.audio.play();
+      }
     },
     create(){
       this.transcript = '';

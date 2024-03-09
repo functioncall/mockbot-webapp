@@ -322,6 +322,15 @@ a {
     width: 25px;
     height: auto;
 }
+.play-btn{
+    font-size: 30px;
+    color: #fff;
+    background-color: transparent;
+}
+.play-btn svg{
+    width: 60px;
+    height: auto;
+}
 
 /* media-query css */
 
@@ -415,13 +424,13 @@ a {
 
 @media screen and (max-width: 576px) {
     .container-image-main .container-image-position {
-        transform: translate(-37px, -141px);
-        max-width: 224px;
+        transform: translate(-35px, -137px);
+        max-width: 218px;
     }
 
     .container-image-position img, .container-image-position video {
         width: 100%;
-        height: 169px;
+        height: auto;
     }
 
     .header {
@@ -443,14 +452,14 @@ a {
 
 @media screen and (max-width: 376px) {
     .container-image-main .container-image-position {
-        transform: translate(-37px, -127px);
-        max-width: 207px;
+        transform: translate(-27px, -119px);
+        max-width: 185px;
     }
 
-    .container-image-position img, .container-image-position video {
+    /* .container-image-position img, .container-image-position video {
         width: 100%;
-        height: 159px;
-    }
+        height: auto;
+    } */
 }
 
 @media screen and (max-width: 321px) {
